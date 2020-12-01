@@ -57,7 +57,7 @@ class ImageGenerator extends React.Component {
                         <div className="spinner-border mt-2" role="status"></div>
                     }
                     {this.props.show &&
-                        <img className='mt-3' src={"%PUBLIC_URL%/"+this.props.imgId} href/>
+                        <img className='mt-3' src={this.props.imgId} href/>
                     }
                 </div>
             </div >
