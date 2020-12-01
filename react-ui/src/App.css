@@ -1,0 +1,116 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+#neurogramTitle:hover{
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+#menuCard{
+  background-color: lightgrey;
+  width: 200px;
+  height: 200px;
+}
+
+#menuCard:hover{
+  background-color: white;
+}
+
+#cardTitle{
+  font-size: medium;
+}
+
+#form{
+  width: 100%;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  flex-direction: row;
+}
+
+#generator{
+  width: 512px
+}
+
+.select{
+  width: 100%
+}
+
+#title{
+  top: 10px;
+  left: 10px;
+  position: absolute;
+}
+
+.noOutline {
+  outline: none !important;  
+}
+
+#alert{
+  font-size: small;
+  color: red;
+}
+
+#submitBtn{
+  margin-top: 1em;
+  width: 100%;
+  background-color: green;
+}
+
+#parenthesis{
+  text-transform: lowercase;
+}
+
+.voteBtn {
+  text-transform: lowercase;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+#navBtn{
+  display: flex;
+  justify-content: space-between;
+}
+
+#currentPainting{
+  height: 500px;
+  width: 500px;
+}
+
+#votingButtons{
+  display: flex;
+  justify-content: space-between;
+}
+
+#title{
+  margin: 1em;
+}
+
+#returnbtn{
+  margin-left: 1em
+}
