@@ -280,9 +280,7 @@ class App extends React.Component {
       .then((response) => { return response.json() })
       .then((res) => {
         this.setState({ res: res })
-        console.log(process.env.PUBLIC_URL)
-        console.log(process.env['PUBLIC_URL'])
-        var imgId = process.env['PUBLIC_URL'] + "/images/" + now + '.png'
+        var imgId = now + '.png'
         return imgId
       })
       .then((imgId) => {

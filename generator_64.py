@@ -99,13 +99,7 @@ def generate(selected_emotion, selected_style, nb_img, id):
 
     fake = gen(noise_and_labels).data.cpu()
 
-    try:
-        os.mkdir(f"./react-ui/public/images/")
-    except OSError as exc:
-        if exc.errno != errno.EEXIST:
-            raise
-        pass
-    vutils.save_image(fake.data, './react-ui/public/images/' + id + '.png' , normalize=True)
+    vutils.save_image(fake.data, './react-ui/public/' + id + '.png' , normalize=True)
 
 def download_file_from_google_drive(style):
 
