@@ -86,6 +86,8 @@ def generate(selected_emotion, selected_style, nb_img, id):
 
     emotion = selected_emotion
 
+    print(emotion, style)
+
     gen = Generator(input_dim = z_dim + len(label_classes)).to(device)
     model_path = f"./weights/{selected_style}/netG_{selected_style}_64.weight"
     gen.load_state_dict(torch.load(model_path, map_location=torch.device(device)))
