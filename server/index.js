@@ -1,4 +1,5 @@
 const express = require('express');
+var bodyParser = require('body-parser')
 const path = require('path');
 const { spawn } = require('child_process');
 const fs = require('fs')
@@ -31,6 +32,8 @@ if (!isDev && cluster.isMaster) {
 
 } else {
   const app = express();
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json())
 
   // Priority serve any static files.
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
@@ -46,6 +49,8 @@ if (!isDev && cluster.isMaster) {
     let style = req.params.style
     let number = req.params.number
     let emotion = req.params.emotion
+
+    console.log(style, emotion)
 
     let dataList = []
     // spawn new child process to call the python script
@@ -63,6 +68,24 @@ if (!isDev && cluster.isMaster) {
     });
   })
 
+  app.get('/register', (req, res) => {
+    fs.readFile('./credentials.json', (err, content) => {
+      if (err) return console.log('Error loading client secret file:', err);
+      // Authorize a client with credentials, th,en call the Google Drive API.
+      //authorize(JSON.parse(content), uploadFile);
+      var credentials = JSON.parse(content)
+      const { client_secret, client_id, redirect_uris } = credentials.web;
+      const oAuth2Client = new google.auth.OAuth2(
+        client_id, client_secret, redirect_uris[0]);
+      authUrl = oAuth2Client.generateAuthUrl({
+        access_type: 'offline',
+        scope: SCOPES,
+      });
+      console.log('authurl ', authUrl)
+      res.json(authUrl)
+    });
+  })
+
   app.post('/submit/:id', (req, res) => {
     let votes = req.body.votes
     let id = req.params.id
@@ -71,7 +94,7 @@ if (!isDev && cluster.isMaster) {
 
     console.log(code)
 
-    let writeStream = fs.createWriteStream('./votes/' + filename)
+    let writeStream = fs.createWriteStream(filename)
 
     writeStream.on('finish', () => {
       fs.readFile('./credentials.json', (err, content) => {
@@ -118,14 +141,14 @@ if (!isDev && cluster.isMaster) {
 
   })
 
-// All remaining requests return the React app, so it can handle routing.
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
-});
+  // All remaining requests return the React app, so it can handle routing.
+  /*app.get('*', function (request, response) {
+    response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
+  });*/
 
-app.listen(PORT, function () {
-  console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port ${PORT}`);
-});
+  app.listen(PORT, function () {
+    console.error(`Node ${isDev ? 'dev server' : 'cluster worker ' + process.pid}: listening on port ${PORT}`);
+  });
 }
 
 function getAccessToken(oAuth2Client, callback) {
@@ -167,7 +190,7 @@ function uploadFile(auth, filename) {
     },
     media: {
       mimeType: 'text/csv',
-      body: fs.createReadStream('./votes/' + filename)
+      body: fs.createReadStream(filename)
     },
     fields: 'id'
   }, (err, file) => {
