@@ -18,6 +18,8 @@ class ImageGenerator extends React.Component {
             this.setState({ loading: false })
             $('#generatedImage').css('display','inline')
             $('#generatedImage').css('position','absolute')
+            $('#generatedImage').attr("src",'%PUBLIC_URL%/' + this.props.imgId)
+            
         }
     }
 
@@ -60,9 +62,8 @@ class ImageGenerator extends React.Component {
                     }
                     {this.props.show &&
                         <React.Fragment>
-                            <img className='mt-3' src={this.props.imgId} />
+                            <img className='mt-3' src={"./" + this.props.imgId} />
                             <img className='mt-3' src={window.location.origin + '/' + this.props.imgId} />
-                            <img className='mt-3' src={'%PUBLIC_URL%/'+ this.props.imgId} />
                         </React.Fragment>
                     }
                 </div>
