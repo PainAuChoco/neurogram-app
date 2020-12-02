@@ -8,6 +8,7 @@ const opn = require('opn')
 const { google } = require('googleapis');
 const cluster = require('cluster');
 const { data } = require('jquery');
+const { error } = require('console');
 const numCPUs = require('os').cpus().length;
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -69,6 +70,7 @@ if (!isDev && cluster.isMaster) {
       // send data to browser
       res.json(dataList)
     });
+    python.on('error', (err) => console.log(err))
   })
 
   app.get('/register', (req, res) => {
