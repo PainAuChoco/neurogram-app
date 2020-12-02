@@ -58,7 +58,7 @@ class ImageGenerator extends React.Component {
                     }
                     {this.props.show &&
                         <React.Fragment>
-                            <img className='mt-3' src={"./" + this.props.imgId} />
+                            <img className='mt-3' src={this.props.imgId} />
                         </React.Fragment>
                     }
                 </div>

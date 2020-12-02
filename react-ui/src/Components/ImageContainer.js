@@ -48,11 +48,11 @@ class ImageContainer extends React.Component {
         var ratio = this.props.height / this.props.width
         var newWidth, newHeight
         if (this.props.width < this.props.height) {
-            newHeight = 400
+            newHeight = 300
             newWidth = newHeight / ratio
         }
         else {
-            newWidth = 400
+            newWidth = 300
             newHeight = newWidth * ratio
         }
         this.setState({

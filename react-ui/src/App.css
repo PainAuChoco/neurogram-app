@@ -24,6 +24,16 @@
   color: white;
 }
 
+.MuiStepLabel-label.MuiStepLabel-active{
+  color: white !important;
+  font-size: x-large;
+  cursor: pointer
+}
+
+.MuiTypography-body2{
+  cursor: pointer
+}
+
 #neurogramTitle:hover{
   opacity: 0.5;
   cursor: pointer;
@@ -98,8 +108,8 @@
 }
 
 #currentPainting{
-  height: 500px;
-  width: 500px;
+  height: 300px;
+  width: 300px;
 }
 
 #votingButtons{

@@ -10,6 +10,8 @@ from PIL import Image
 import requests
 import errno
 
+print('blabla')
+
 class Generator(nn.Module):
 
     def __init__(self, input_dim=10, im_chan=3, hidden_dim=64):
@@ -86,8 +88,6 @@ def generate(selected_emotion, selected_style, nb_img, id):
 
     emotion = selected_emotion
 
-    print(emotion, style)
-
     gen = Generator(input_dim = z_dim + len(label_classes)).to(device)
     model_path = f"./weights/{selected_style}/netG_{selected_style}_64.weight"
     gen.load_state_dict(torch.load(model_path, map_location=torch.device(device)))
@@ -98,8 +98,6 @@ def generate(selected_emotion, selected_style, nb_img, id):
     noise_and_labels = combine_vectors(noise, one_hot_labels.float())
 
     fake = gen(noise_and_labels).data.cpu()
-    print(fake)
-    print(fake.data)
 
     vutils.save_image(fake.data, './react-ui/public/' + id + '.png' , normalize=True)
 
@@ -162,7 +160,6 @@ if __name__ == '__main__':
     style = str(sys.argv[1])
     id = str(sys.argv[5])
     save = str(sys.argv[4])
-    print(sys.argv)
 
     generate(emotion, style, num_img_to_gen, id)
     

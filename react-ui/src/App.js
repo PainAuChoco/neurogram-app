@@ -1,21 +1,15 @@
 import './App.css';
 import React from "react";
-import ImageContainer from './Components/ImageContainer'
-import VotingButtons from './Components/VotingButtons'
-import Button from "@material-ui/core/Button"
-import DirectoriesButtons from './Components/DirectoriesButtons'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import ImageGenerator from "./Components/ImageGenerator"
 import SuccessSnackBar from './Components/SuccessSnackBar'
-import Paper from "@material-ui/core/Paper"
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { ReactComponent as BrainSVG } from "./brain.svg"
-import { ReactComponent as TeamSVG } from "./team.svg"
+import Menu from './Components/Menu'
+import About from './Components/About'
+import EmotionPicker from './Components/EmotionPicker';
 
 const GOOGLE_API_KEY = "AIzaSyAcNznsnSs9fgpA47oE9EuTYflRSeH6RSc";
 const GOOGLE_DRIVE_URL_START = "https://www.googleapis.com/drive/v2/files?q=%27";
 const GOOGLE_DRIVE_URL_END = "%27+in+parents&maxResults=1000&key=";
-const GOOGLE_DRIVE_IMG_URL = "http://drive.google.com/uc?export=view&id=";
 const MAIN_FOLDER_ID = "11XVfzHUzqEStME89y-PgJZIOa-MlUODm"
 
 class App extends React.Component {
@@ -23,8 +17,6 @@ class App extends React.Component {
   state = {
     votes: [],
     paintings: [],
-    dirId: "",
-    dirName: "",
     directories: [],
     positive: [],
     negative: [],
@@ -80,7 +72,7 @@ class App extends React.Component {
       })
     }
 
-    if(this.state.display === "Emotion Picker" && this.state.authCode === null){
+    if (this.state.display === "Emotion Picker" && this.state.authCode === null) {
       this.register()
     }
   }
@@ -224,21 +216,8 @@ class App extends React.Component {
     })
   }
 
-  handleDirectorySelection = (dirName) => {
-    var dirId
-    this.state.directories.forEach(dir => {
-      if (dir.title === dirName) dirId = dir.id
-    });
-    this.setState({
-      dirId: dirId,
-      dirName: dirName,
-    })
-    this.loadSubDir(dirId)
-  }
-
   handleReturnClick = () => {
     this.setState({
-      dirId: "",
       paintings: []
     })
   }
@@ -303,6 +282,16 @@ class App extends React.Component {
     this.setState({ display: "Emotion Picker" })
   }
 
+  displayAboutPage = () => {
+    this.setState({ display: "About" })
+  }
+
+  displayHomePage = () => {
+    this.setState({
+      display: null
+    })
+  }
+
   register = () => {
     fetch("/register")
       .then((response) => { return response.json() })
@@ -321,29 +310,20 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <div id="title">
-            {this.state.display !== null &&
+            {this.state.display !== null && this.state.display !== "About" &&
               <span> {this.state.display + " by "}</span>
             }
-            <span id="neurogramTitle" onClick={() => this.setState({ display: null })}>Neurogram</span>
+            {this.state.display === "About" && 
+              <span>{this.state.display + ' '}</span>
+            }
+            <span id="neurogramTitle" onClick={this.displayHomePage}>Neurogram</span>
           </div>
           {this.state.display === null &&
-            <div className="d-flex">
-              <div>
-                {/** 
-                <Paper className="mr-2" id="menuCard" elevation={5} onClick={this.displayGenerator} >
-                  <BrainSVG className="mt-4" width="150" height="150" />
-                </Paper>
-                <span id="cardTitle">Generate original artworks</span>
-                */}
-              </div>
-              
-              <div>
-                <Paper className="ml-2" id="menuCard" elevation={5} onClick={this.displayEmotionPicker} >
-                  <TeamSVG className="mt-4" width="150" height="150" />
-                </Paper>
-                <span id="cardTitle">Help us improve our AI</span>
-              </div>
-            </div>
+            <Menu
+              displayEmotionPicker={this.displayEmotionPicker}
+              displayGenerator={this.displayGenerator}
+              displayAboutPage={this.displayAboutPage}
+            />
           }
           {this.state.display === "Artwork Generator" &&
             <div>
@@ -355,42 +335,20 @@ class App extends React.Component {
             </div>
           }
           {this.state.display === "Emotion Picker" &&
-            <div>
-              {this.state.loading &&
-                <div className="spinner-border" role="status"></div>
-              }
-              {this.state.paintings.length !== 0 && this.state.driveSync &&
-                <React.Fragment>
-                  <span>{this.state.dirName}</span>
-                  <ImageContainer
-                    url={GOOGLE_DRIVE_IMG_URL + this.state.paintings[0].id}
-                    width={this.state.currentWidth}
-                    height={this.state.currentHeight}
-                  />
-                  {this.state.paintings[1] !== undefined &&
-                    <div hidden>
-                      <ImageContainer
-                        url={GOOGLE_DRIVE_IMG_URL + this.state.paintings[1].id}
-                        width={this.state.paintings[1].imageMediaMetadata.width}
-                        height={this.state.paintings[1].imageMediaMetadata.height}
-                      />
-                    </div>
-                  }
-                  {this.state.paintings.length < 10 &&
-                    <div id="alert" className="mb-1">Warning: only {this.state.paintings.length - 2} artworks left to classify in this genre !</div>
-                  }
-                  {this.state.paintings.length >= 4 &&
-                    <VotingButtons
-                      callbackClick={this.handleVote}
-                    />
-                  }
-                  {Object.entries(this.state.votes).length !== 0 &&
-                    <Button id="submitBtn" className="noOutline" variant="contained" color="primary" value="Submit" onClick={this.submitVotes}>Submit {<span id="parenthesis">({" " + this.state.votes.length} vote(s) so far)</span>}</Button>
-                  }
-                </React.Fragment>
-              }
-
-            </div>
+            <EmotionPicker
+              submitVotes={this.submitVotes}
+              handleVote={this.handleVote}
+              paintings={this.state.paintings}
+              loading={this.state.loading}
+              votes={this.state.votes}
+              currentWidth={this.state.currentWidth}
+              currentHeight={this.state.currentHeight}
+            />
+          }
+          {this.state.display === 'About' && 
+            <About
+              returnToMenu={this.displayHomePage}
+            />
           }
           {this.state.snackbarOpen &&
             <SuccessSnackBar
