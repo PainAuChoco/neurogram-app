@@ -16,6 +16,7 @@ class ImageGenerator extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.imgId !== this.props.imgId) {
             this.setState({ loading: false })
+            $('#generatedImage').show()
         }
     }
 
@@ -57,7 +58,10 @@ class ImageGenerator extends React.Component {
                         <div className="spinner-border mt-2" role="status"></div>
                     }
                     {this.props.show &&
-                        <img className='mt-3' src={this.props.imgId} href/>
+                        <React.Fragment>
+                            <img className='mt-3' src={this.props.imgId} />
+                            <img className='mt-3' src={window.location.origin + this.props.imgId} />
+                        </React.Fragment>
                     }
                 </div>
             </div >
