@@ -52,7 +52,6 @@ if (!isDev && cluster.isMaster) {
     let emotion = req.params.emotion
 
     console.log(style, emotion)
-    console.log("public url : " + process.env.PUBLIC_URL)
 
     let dataList = []
     // spawn new child process to call the python script
