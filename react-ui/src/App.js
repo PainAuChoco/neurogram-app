@@ -329,11 +329,14 @@ class App extends React.Component {
           {this.state.display === null &&
             <div className="d-flex">
               <div>
+                {/** 
                 <Paper className="mr-2" id="menuCard" elevation={5} onClick={this.displayGenerator} >
                   <BrainSVG className="mt-4" width="150" height="150" />
                 </Paper>
                 <span id="cardTitle">Generate original artworks</span>
+                */}
               </div>
+              
               <div>
                 <Paper className="ml-2" id="menuCard" elevation={5} onClick={this.displayEmotionPicker} >
                   <TeamSVG className="mt-4" width="150" height="150" />
