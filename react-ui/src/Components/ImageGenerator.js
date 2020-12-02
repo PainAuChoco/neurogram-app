@@ -16,7 +16,8 @@ class ImageGenerator extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.imgId !== this.props.imgId) {
             this.setState({ loading: false })
-            $('#generatedImage').show()
+            $('#generatedImage').css('display','inline')
+            $('#generatedImage').css('position','absolute')
         }
     }
 

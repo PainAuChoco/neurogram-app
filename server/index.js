@@ -7,6 +7,7 @@ const readline = require('readline');
 const opn = require('opn')
 const { google } = require('googleapis');
 const cluster = require('cluster');
+const { data } = require('jquery');
 const numCPUs = require('os').cpus().length;
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -60,6 +61,7 @@ if (!isDev && cluster.isMaster) {
     python.stdout.on('data', function (data) {
       console.log('Pipe data from python script ...');
       dataList.push(data)
+      console.log(data)
     });
     // in close event we are sure that stream is from child process is closed
     python.on('close', (code) => {
