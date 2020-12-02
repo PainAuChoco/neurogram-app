@@ -98,6 +98,8 @@ def generate(selected_emotion, selected_style, nb_img, id):
     noise_and_labels = combine_vectors(noise, one_hot_labels.float())
 
     fake = gen(noise_and_labels).data.cpu()
+    print(fake)
+    print(fake.data)
 
     vutils.save_image(fake.data, './react-ui/public/' + id + '.png' , normalize=True)
 
