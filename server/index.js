@@ -41,7 +41,7 @@ app.get('/script/:id/:style/:number/:emotion', (req, res) => {
 
   let dataList = []
   // spawn new child process to call the python script
-  const python = spawn("python", ["test.py", style, emotion, number, 's', id]);
+  const python = spawn("python", ["generator_64.py", style, emotion, number, 's', id]);
   // collect data from script
   python.stdout.on('data', function (data) {
     console.log('Pipe data from python script ...');
