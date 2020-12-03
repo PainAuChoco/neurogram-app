@@ -47,19 +47,18 @@ class ImageGenerator extends React.Component {
                     </select>
 
                     <select id="number" name="number" className="select form-control ml-1">
+                        <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="8">8</option>
+                        <option value="16">16</option>
+                        <option value="64">64</option>
+                        <option value="128">128</option>
                     </select>
                 </div>
                 <Button variant="contained" className="noOutline mt-1 ml-1" onClick={this.handleGenerateClick} color="primary">Generate Image</Button>
                 <div>
                     {this.state.loading &&
                         <div className="spinner-border mt-2" role="status"></div>
-                    }
-                    {this.props.show &&
-                        <React.Fragment>
-                            <img className='mt-3' src={this.props.imgId} />
-                        </React.Fragment>
                     }
                     {this.props.genUri !== null &&
                         <React.Fragment>
