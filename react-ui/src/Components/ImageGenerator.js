@@ -1,7 +1,6 @@
 import '../App.css';
 import React from "react";
 import Button from "@material-ui/core/Button"
-import Grid from "@material-ui/core/Grid"
 import $ from "jquery"
 
 class ImageGenerator extends React.Component {
@@ -32,21 +31,34 @@ class ImageGenerator extends React.Component {
     render() {
         return (
             <div id="generator">
+                <div id="introText">
+                    <p>
+                        This is the very first generator of Neurogram !
+                    </p>
+                    <p>
+                        As you may have noticed, you are not wearing an electrode-filled helmet capturing your brain activity.
+                        Therefore, we'll have to trust you on this one and let you tell us what kind of emotion you would like to recognize in the generated artwork !
+                    </p>
+                    <p>
+                        Please be indulgent with our 64x64 pixels creations, it's only the beginning !
+                    </p>
+                </div>
                 <div id="form">
-                    <select id="style" name="style" className="select form-control mr-1">
+                    
+                    <select id="style" name="style" className="select form-control mr-1" placeholder="Painting Style">
                         <option value="portrait">Portrait</option>
                         <option value="abstract">Abstract</option>
                         <option value="flower-painting">Flower</option>
                         <option value="landscape">Landscape</option>
                     </select>
 
-                    <select id="emotion" name="emotion" className="select form-control">
+                    <select id="emotion" name="emotion" className="select form-control" placeholder="Emotion Type">
                         <option value="positive">positive</option>
                         <option value="negative">negative</option>
                         <option value="neutral">neutral</option>
                     </select>
 
-                    <select id="number" name="number" className="select form-control ml-1">
+                    <select id="number" name="number" className="select form-control ml-1" placeholder="Number of generation">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="8">8</option>

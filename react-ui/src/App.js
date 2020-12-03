@@ -308,7 +308,6 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
           <div id="title">
             {this.state.display !== null && this.state.display !== "About" &&
               <span> {this.state.display + " by "}</span>
@@ -356,8 +355,7 @@ class App extends React.Component {
               handleCloseError={this.handleCloseError}
             />
           }
-        </header>
-      </div >
+        </div>
     )
   }
 }
