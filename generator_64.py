@@ -4,6 +4,8 @@ import torchvision.utils as vutils
 import torch.nn.functional as F
 import os, sys
 import numpy as np
+import errno
+import requests
 
 class Generator(nn.Module):
 
@@ -81,6 +83,8 @@ def generate(selected_emotion, selected_style, nb_img, id):
 
     emotion = selected_emotion
 
+    download_file_from_google_drive(style)
+
     gen = Generator(input_dim = z_dim + len(label_classes)).to(device)
     model_path = f"./weights/{selected_style}/netG_{selected_style}_64.weight"
     gen.load_state_dict(torch.load(model_path, map_location=torch.device(device)))
@@ -109,7 +113,8 @@ def download_file_from_google_drive(style):
         if exc.errno != errno.EEXIST:
             raise
         pass
-    
+
+    id = "1Hd3NRmyjVDZLMkmgmLkJwqyik-l-NNPJ"
     if style == "portrait":
         id = "1Hd3NRmyjVDZLMkmgmLkJwqyik-l-NNPJ"
     elif style == "abstract":
