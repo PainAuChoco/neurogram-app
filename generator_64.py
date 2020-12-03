@@ -5,8 +5,6 @@ import torch.nn.functional as F
 import os, sys
 import numpy as np
 
-print('blabla')
-
 class Generator(nn.Module):
 
     def __init__(self, input_dim=10, im_chan=3, hidden_dim=64):
