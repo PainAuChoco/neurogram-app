@@ -1,11 +1,12 @@
 import './App.css';
-import React from "react";
+import React from "react"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ImageGenerator from "./Components/ImageGenerator"
 import SuccessSnackBar from './Components/SuccessSnackBar'
 import Menu from './Components/Menu'
 import About from './Components/About'
 import EmotionPicker from './Components/EmotionPicker';
+
 
 const GOOGLE_API_KEY = "AIzaSyAcNznsnSs9fgpA47oE9EuTYflRSeH6RSc";
 const GOOGLE_DRIVE_URL_START = "https://www.googleapis.com/drive/v2/files?q=%27";
@@ -25,13 +26,13 @@ class App extends React.Component {
     currentHeight: 0,
     loading: false,
     imgGenerated: false,
-    display: null,
-    imgId: null,
+    display: null,  
     driveSync: false,
     matchings: {},
     authCode: null,
     snackbarOpen: false,
-    snackBarMessage: ""
+    snackBarMessage: "",
+    genUri: null
   }
 
   componentDidMount() {
@@ -258,9 +259,8 @@ class App extends React.Component {
     fetch('/script/' + now + '/' + style + '/' + imgNumber + '/' + emotion)
       .then((response) => { return response.json() })
       .then((res) => {
-        this.setState({ res: res })
-        var imgId = process.env.PUBLIC_URL + now + '.png'
-        return imgId
+        var genUri = res[0]
+        this.setState({ genUri: genUri, imgGenerated: true })
       })
       .then((imgId) => {
         this.setState({ imgGenerated: true, imgId: imgId })
@@ -329,7 +329,7 @@ class App extends React.Component {
             <div>
               <ImageGenerator
                 show={this.state.imgGenerated}
-                imgId={this.state.imgId}
+                genUri={this.state.genUri}
                 getGeneratedImages={this.getGeneratedImages}
               />
             </div>

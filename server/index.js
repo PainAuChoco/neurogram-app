@@ -45,7 +45,7 @@ app.get('/script/:id/:style/:number/:emotion', (req, res) => {
   // collect data from script
   python.stdout.on('data', function (data) {
     console.log('Pipe data from python script ...');
-    dataList.push(data)
+    dataList.push(uint8arrayToString(data))
   });
   //collect errors from script
   python.stderr.on('data', function (data) {
@@ -164,3 +164,8 @@ function uploadFile(auth, filename) {
     }
   });
 }
+
+// Function to convert an Uint8Array to a string
+const uint8arrayToString = function(data){
+  return String.fromCharCode.apply(null, data);
+};

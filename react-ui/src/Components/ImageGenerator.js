@@ -14,8 +14,8 @@ class ImageGenerator extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.imgId !== this.props.imgId) {
-            this.setState({ loading: false })            
+        if (prevProps.genUri !== this.props.genUri) {
+            this.setState({ loading: false })
         }
     }
 
@@ -59,6 +59,11 @@ class ImageGenerator extends React.Component {
                     {this.props.show &&
                         <React.Fragment>
                             <img className='mt-3' src={this.props.imgId} />
+                        </React.Fragment>
+                    }
+                    {this.props.genUri !== null &&
+                        <React.Fragment>
+                            <img className='mt-3' src={this.props.genUri} />
                         </React.Fragment>
                     }
                 </div>

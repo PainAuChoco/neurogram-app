@@ -1,11 +1,14 @@
 import torch
 from torch import nn
 import torchvision.utils as vutils
+from torchvision import transforms
 import torch.nn.functional as F
 import os, sys
 import numpy as np
 import errno
 import requests
+import base64
+from io import BytesIO
 
 class Generator(nn.Module):
 
@@ -96,8 +99,16 @@ def generate(selected_emotion, selected_style, nb_img, id):
 
     fake = gen(noise_and_labels).data.cpu()
 
-    vutils.save_image(fake.data, f'./react-ui/public/' + id + '.png' , normalize=True)
-    print("image saved")
+    #vutils.save_image(fake.data, f'./react-ui/public/' + id + '.png' , normalize=True)
+    t = vutils.make_grid(fake.data, normalize=True)
+    img = transforms.ToPILImage()(t)
+    buffered = BytesIO()
+    img.save(buffered, format="PNG")
+    buffered.seek(0)
+    img_byte = buffered.getvalue()
+    img_str = "data:image/png;base64," + base64.b64encode(img_byte).decode()
+    print(img_str)
+    
 
 def download_file_from_google_drive(style):
 
