@@ -47,6 +47,10 @@ app.get('/script/:id/:style/:number/:emotion', (req, res) => {
     console.log('Pipe data from python script ...');
     dataList.push(data)
   });
+  //collect errors from script
+  python.stderr.on('data', function (data) {
+    console.error(data.toString());
+  });
   // in close event we are sure that stream is from child process is closed
   python.on('close', (code) => {
     console.log(`child process close all stdio with code ${code}`);
