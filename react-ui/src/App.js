@@ -259,7 +259,7 @@ class App extends React.Component {
     fetch('/script/' + now + '/' + style + '/' + imgNumber + '/' + emotion)
       .then((response) => { return response.json() })
       .then((res) => {
-        var genUri = res[0]
+        var genUri = res.join('')
         this.setState({ genUri: genUri, imgGenerated: true })
       })
       .then((imgId) => {
