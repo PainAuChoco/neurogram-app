@@ -96,7 +96,8 @@ def generate(selected_emotion, selected_style, nb_img, id):
 
     fake = gen(noise_and_labels).data.cpu()
 
-    vutils.save_image(fake.data, './react-ui/public/' + id + '.png' , normalize=True)
+    vutils.save_image(fake.data, f'./react-ui/public/' + id + '.png' , normalize=True)
+    print("image saved")
 
 def download_file_from_google_drive(style):
 
