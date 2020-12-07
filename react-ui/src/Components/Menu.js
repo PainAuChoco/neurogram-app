@@ -36,7 +36,7 @@ class Menu extends React.Component {
     return (
       <div className={this.props.windowWidth > 650 ? "d-flex" : "d-flex flex-column"}>
         <div>
-          <Paper className="mr-2" id="menuCard" style={this.props.windowWidth > 650 ? horizontalDisplayCard : verticalDisplayCard}
+          <Paper className="ml-2 mr-2" id="menuCard" style={this.props.windowWidth > 650 ? horizontalDisplayCard : verticalDisplayCard}
             elevation={this.state.hover === 'generate' ? 24 : 1}
             onClick={this.props.displayGenerator}
             onMouseEnter={() => this.setState({ hover: 'generate' })}

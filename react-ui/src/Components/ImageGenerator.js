@@ -13,9 +13,6 @@ const generatorSmall = {
     marginTop: "6em"
 }
 
-const imgSmall = {
-    maxWidth: ""
-}
 
 class ImageGenerator extends React.Component {
 

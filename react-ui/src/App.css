@@ -37,6 +37,10 @@
   fill: white
 }
 
+#aboutPage{
+  margin-top: 2em;
+}
+
 #arrow:hover{
   opacity: 0.5;
   cursor: pointer

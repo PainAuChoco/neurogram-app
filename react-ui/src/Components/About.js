@@ -108,7 +108,7 @@ export default function About({ returnToMenu, windowWidth, windowHeight }) {
     }
 
     return (
-        <div className={classes.root}>
+        <div id="aboutPage" className={classes.root}>
             <Stepper activeStep={activeStep} orientation="vertical" style={{ backgroundColor: "#282c34" }}>
                 {steps.map((label, index) => (
                     <Step key={label}>
