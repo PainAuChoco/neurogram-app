@@ -3,7 +3,7 @@ import React from "react";
 import Button from "@material-ui/core/Button"
 import $ from "jquery"
 
-const generatorBig ={
+const generatorBig = {
     width: "600px"
 }
 
@@ -14,7 +14,7 @@ const generatorSmall = {
 
 const imgSmall = {
     maxWidth: ""
-} 
+}
 
 class ImageGenerator extends React.Component {
 
@@ -43,12 +43,12 @@ class ImageGenerator extends React.Component {
 
     render() {
         return (
-            <div id="generator" style={this.props.windowWidth > 650 ? generatorBig: generatorSmall}>
+            <div id="generator" style={this.props.windowWidth > 650 ? generatorBig : generatorSmall}>
                 <div id="introText">
                     <p>
                         This is the very first generator of Neurogram !
                     </p>
-                    <p>
+                    <p hidden>
                         As you may have noticed, you are not wearing an electrode-filled helmet capturing your brain activity.
                         Therefore, we'll have to trust you on this one and let you tell us what kind of emotion you would like to recognize in the generated artwork !
                     </p>
@@ -57,7 +57,7 @@ class ImageGenerator extends React.Component {
                     </p>
                 </div>
                 <div id="form">
-                    
+
                     <select id="style" name="style" className="select form-control mr-1" placeholder="Painting Style">
                         <option value="portrait">Portrait</option>
                         <option value="abstract">Abstract</option>
@@ -87,9 +87,10 @@ class ImageGenerator extends React.Component {
                     }
                     {this.props.genUri !== null &&
                         <React.Fragment>
-                            <img className='mt-3' 
-                            style={{maxWidth: this.props.windowWidth + "px", marginLeft: this.props.windowWidth > 650 ? "0px" : "-50px" }}
-                             src={this.props.genUri} />
+                            <img className='mt-3'
+                                style={{ maxWidth: this.props.windowWidth + "px" }}
+                                src={this.props.genUri}
+                            />
                         </React.Fragment>
                     }
                 </div>
