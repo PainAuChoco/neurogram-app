@@ -9,7 +9,8 @@ const generatorBig = {
 
 const generatorSmall = {
     width: "400px",
-    fontSize: "small"
+    fontSize: "small",
+    marginTop: "6em"
 }
 
 const imgSmall = {

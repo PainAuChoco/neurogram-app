@@ -33,6 +33,15 @@
   color: white;
 }
 
+#arrow{
+  fill: white
+}
+
+#arrow:hover{
+  opacity: 0.5;
+  cursor: pointer
+}
+
 .MuiStepLabel-label.MuiStepLabel-active{
   color: #007bff !important;
   font-size: x-large;

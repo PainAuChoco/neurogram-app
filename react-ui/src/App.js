@@ -6,6 +6,7 @@ import SuccessSnackBar from './Components/SuccessSnackBar'
 import Menu from './Components/Menu'
 import About from './Components/About'
 import EmotionPicker from './Components/EmotionPicker';
+import { ReactComponent as CurveArrow } from "./curve-arrow.svg"
 
 
 const GOOGLE_API_KEY = "AIzaSyAcNznsnSs9fgpA47oE9EuTYflRSeH6RSc";
@@ -319,6 +320,9 @@ class App extends React.Component {
     return (
       <div className="App">
           <div id="title">
+            {this.state.display !== null && 
+              <CurveArrow id="arrow" width="25px" height="25px" onClick={this.displayHomePage}/>
+            }
             {this.state.display !== null && this.state.display !== "About" &&
               <span> {this.state.display + " by "}</span>
             }
