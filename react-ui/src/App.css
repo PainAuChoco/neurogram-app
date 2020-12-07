@@ -8,6 +8,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  overflow-x: hidden;
 }
 
 .App-logo {
@@ -53,8 +54,6 @@
 
 #menuCard{
   background-color: lightgrey;
-  width: 200px;
-  height: 200px;
 }
 
 b{
@@ -80,10 +79,6 @@ b{
   margin: auto;
   justify-content: center;
   flex-direction: row;
-}
-
-#generator{
-  width: 512px
 }
 
 #introText{

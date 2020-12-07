@@ -32,7 +32,9 @@ class App extends React.Component {
     authCode: null,
     snackbarOpen: false,
     snackBarMessage: "",
-    genUri: null
+    genUri: null,
+    windowWidth: window.innerWidth,
+    windowHeight: window.innerHeight
   }
 
   componentDidMount() {
@@ -49,6 +51,14 @@ class App extends React.Component {
       window.history.pushState({}, null, "/")
       this.loadDirectoriesName()
     }
+    window.addEventListener('resize', this.updateDimensions);
+  }
+
+  updateDimensions = () => {
+    this.setState({
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight
+    })
   }
 
   componentDidUpdate() {
@@ -322,6 +332,8 @@ class App extends React.Component {
               displayEmotionPicker={this.displayEmotionPicker}
               displayGenerator={this.displayGenerator}
               displayAboutPage={this.displayAboutPage}
+              windowHeight={this.state.windowHeight}
+              windowWidth={this.state.windowWidth}
             />
           }
           {this.state.display === "Artwork Generator" &&
@@ -330,6 +342,8 @@ class App extends React.Component {
                 show={this.state.imgGenerated}
                 genUri={this.state.genUri}
                 getGeneratedImages={this.getGeneratedImages}
+                windowHeight={this.state.windowHeight}
+                windowWidth={this.state.windowWidth}
               />
             </div>
           }
@@ -342,11 +356,15 @@ class App extends React.Component {
               votes={this.state.votes}
               currentWidth={this.state.currentWidth}
               currentHeight={this.state.currentHeight}
+              windowHeight={this.state.windowHeight}
+              windowWidth={this.state.windowWidth}
             />
           }
           {this.state.display === 'About' && 
             <About
               returnToMenu={this.displayHomePage}
+              windowWidth={this.state.windowWidth}
+              windowHeight={this.state.windowHeight}
             />
           }
           {this.state.snackbarOpen &&

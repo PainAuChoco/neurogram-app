@@ -3,6 +3,19 @@ import React from "react";
 import Button from "@material-ui/core/Button"
 import $ from "jquery"
 
+const generatorBig ={
+    width: "600px"
+}
+
+const generatorSmall = {
+    width: "400px",
+    fontSize: "small"
+}
+
+const imgSmall = {
+    maxWidth: ""
+} 
+
 class ImageGenerator extends React.Component {
 
     state = {
@@ -30,7 +43,7 @@ class ImageGenerator extends React.Component {
 
     render() {
         return (
-            <div id="generator">
+            <div id="generator" style={this.props.windowWidth > 650 ? generatorBig: generatorSmall}>
                 <div id="introText">
                     <p>
                         This is the very first generator of Neurogram !
@@ -74,7 +87,9 @@ class ImageGenerator extends React.Component {
                     }
                     {this.props.genUri !== null &&
                         <React.Fragment>
-                            <img className='mt-3' src={this.props.genUri} />
+                            <img className='mt-3' 
+                            style={{maxWidth: this.props.windowWidth + "px", marginLeft: this.props.windowWidth > 650 ? "0px" : "-50px" }}
+                             src={this.props.genUri} />
                         </React.Fragment>
                     }
                 </div>

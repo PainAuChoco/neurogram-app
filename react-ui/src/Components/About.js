@@ -31,11 +31,18 @@ function getSteps() {
     return ['Our Project', 'Our team', 'How you can help us'];
 }
 
-function getStepContent(step) {
+function getStepContent(step, windowWidth, windowHeight) {
+    let bigText = {
+        fontSize: "medium"
+    }
+    let smallText = {
+        fontSize: "x-small"
+    }
+
     switch (step) {
         case 0:
             return (
-                <div>
+                <div style={windowWidth > 650 ? bigText : smallText}>
                     <p>
                         Neurogram is an ambitious art project which started in September 2020.
                         It's linking our brain and emotions to artwork creation using of Artificial Intelligence.
@@ -48,7 +55,7 @@ function getStepContent(step) {
             );
         case 1:
             return (
-                <div>
+                <div style={windowWidth > 650 ? bigText : smallText}>
                     <p>
                         We are a team of 7 young engineers specialized either in <b>Big Data&AI</b> or in <b>Health&Neurosciences</b>.
                     </p>
@@ -61,7 +68,7 @@ function getStepContent(step) {
             );
         case 2:
             return (
-                <div>
+                <div style={windowWidth > 650 ? bigText : smallText}>
                     <p>
                         The key factor in any AI-oriented project is the amount of exploitable data to train the various algorithms.
                     </p>
@@ -85,7 +92,7 @@ function getStepContent(step) {
     }
 }
 
-export default function About({ returnToMenu }) {
+export default function About({ returnToMenu, windowWidth, windowHeight }) {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
@@ -107,7 +114,7 @@ export default function About({ returnToMenu }) {
                     <Step key={label}>
                         <StepLabel onClick={() => handleClick(index)}>{label}</StepLabel>
                         <StepContent>
-                            <Typography style={{ color: "white" }}>{getStepContent(index)}</Typography>
+                            <Typography style={{ color: "white" }}>{getStepContent(index, windowWidth, windowHeight)}</Typography>
                             <div className={classes.actionsContainer}>
                                 <div>
                                     <Button
