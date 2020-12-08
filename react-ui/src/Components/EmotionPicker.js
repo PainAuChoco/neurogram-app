@@ -41,6 +41,7 @@ class EmotionPicker extends React.Component {
                                 callbackClick={this.props.handleVote}
                             />
                         }
+                        <Button className='noOutline' variant='contained' color="secondary" onClick={this.props.nextPhoto}>I <span id="parenthesis"> don't know (and that's okay!)</span></Button>
                         {Object.entries(this.props.votes).length !== 0 &&
                             <Button id="submitBtn" className="noOutline" variant="contained" color="primary" value="Submit" onClick={this.props.submitVotes}>Submit {<span id="parenthesis">({this.props.votes.length} vote(s) so far)</span>}</Button>
                         }

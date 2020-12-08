@@ -1,18 +1,24 @@
 import '../App.css';
 import React from "react";
 import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
-export default function VotingButtons({callbackClick}){
+export default function VotingButtons({ callbackClick }) {
 
     const handleClick = (vote) => {
         callbackClick(vote)
     }
 
-    return(
-        <div id="votingButtons" className="d-flex justify-content-between">
-            <Button className="voteBtn mr-1 noOutline" variant="contained" color="primary" onClick={() => handleClick("Negative")} value="Negative">Negative</Button>
-            <Button className="voteBtn mr-1 ml-1 noOutline" variant="contained" color="primary" onClick={() => handleClick("Neutral")} value="Neutral">Neutral</Button>
-            <Button className="voteBtn ml-1 noOutline" variant="contained" color="primary" onClick={() => handleClick("Positive")} value="Positive">Positive</Button>
+    return (
+        <div id="votingButtons" className="mt-2">
+            <ButtonGroup size="small">
+                <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Anger")} value="Anger">Anger</Button>
+                <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Fear")} value="Fear">Fear</Button>
+                <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Sadness")} value="Sadness">Sadness</Button>
+                <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Calm")} value="Calm">Calm</Button>
+                <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Optimism")} value="Optimism">Optimism</Button>
+                <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Happiness")} value="Happiness">Happiness</Button>
+            </ButtonGroup>
         </div>
     )
 }

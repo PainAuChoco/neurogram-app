@@ -355,6 +355,7 @@ class App extends React.Component {
             <EmotionPicker
               submitVotes={this.submitVotes}
               handleVote={this.handleVote}
+              nextPhoto={this.nextPhoto}
               paintings={this.state.paintings}
               loading={this.state.loading}
               votes={this.state.votes}

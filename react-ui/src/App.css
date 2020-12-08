@@ -129,6 +129,7 @@ b{
 
 #parenthesis{
   text-transform: lowercase;
+  margin-left: 5px
 }
 
 .voteBtn {
@@ -145,6 +146,7 @@ b{
 }
 
 #currentPainting{
+  margin: auto;
   height: 300px;
   width: 300px;
 }
@@ -152,6 +154,7 @@ b{
 #votingButtons{
   display: flex;
   justify-content: space-between;
+  margin: auto;
 }
 
 #title{
