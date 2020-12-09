@@ -14,7 +14,7 @@ export default function VotingButtons({ callbackClick }) {
             <ButtonGroup size="small">
                 <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Anger")} value="Anger">Anger</Button>
                 <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Fear")} value="Fear">Fear</Button>
-                <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Sadness")} value="Sadness">Sadness</Button>
+                <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Sad")} value="Sad">Sad</Button>
                 <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Calm")} value="Calm">Calm</Button>
                 <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Optimism")} value="Optimism">Optimism</Button>
                 <Button className="voteBtn noOutline" variant="contained" color="primary" onClick={() => handleClick("Happiness")} value="Happiness">Happiness</Button>

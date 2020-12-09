@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedSnackbars({message, handleCloseError}) {
+export default function CustomizedSnackbars({message, handleCloseError, type}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -35,7 +35,7 @@ export default function CustomizedSnackbars({message, handleCloseError}) {
         horizontal: 'right',
       }}
       >
-        <Alert onClose={() => handleClose()} severity="success">
+        <Alert onClose={() => handleClose()} severity={type}>
           {message}
         </Alert>
       </Snackbar>

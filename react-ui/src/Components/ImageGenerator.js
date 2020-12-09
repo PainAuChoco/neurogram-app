@@ -1,7 +1,13 @@
 import '../App.css';
 import React from "react";
 import Button from "@material-ui/core/Button"
+import { SemipolarLoading } from 'react-loadingg';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faCloudDownloadAlt, faPalette } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery"
+
+library.add(faCloudDownloadAlt, faPalette)
 
 const generatorBig = {
     width: "600px"
@@ -30,14 +36,16 @@ class ImageGenerator extends React.Component {
     }
 
     handleGenerateClick = () => {
-        this.setState({ loading: true })
         var style = $('#style').val()
         var number = $('#number').val()
         var emotion = $('#emotion').val()
-
-        this.props.getGeneratedImages(style, number, emotion)
+        if (style === null || number === null || emotion === null) {
+            this.props.displayErrorSnackBar("Please select a painting style, an emotion and a number of images to generate !")
+        } else {
+            this.props.getGeneratedImages(style, number, emotion)
+            this.setState({ loading: true })
+        }
     }
-
 
     render() {
         return (
@@ -57,6 +65,7 @@ class ImageGenerator extends React.Component {
                 <div id="form">
 
                     <select id="style" name="style" className="select form-control mr-1" placeholder="Painting Style">
+                        <option value="" disabled selected hidden>Painting Style</option>
                         <option value="portrait">Portrait</option>
                         <option value="abstract">Abstract</option>
                         <option value="flower-painting">Flower</option>
@@ -64,12 +73,14 @@ class ImageGenerator extends React.Component {
                     </select>
 
                     <select id="emotion" name="emotion" className="select form-control" placeholder="Emotion Type">
+                        <option value="" disabled selected hidden>Emotion Type</option>
                         <option value="positive">positive</option>
                         <option value="negative">negative</option>
                         <option value="neutral">neutral</option>
                     </select>
 
                     <select id="number" name="number" className="select form-control ml-1" placeholder="Number of generation">
+                        <option value="" disabled selected hidden>Number of Images</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="8">8</option>
@@ -78,10 +89,19 @@ class ImageGenerator extends React.Component {
                         <option value="128">128</option>
                     </select>
                 </div>
-                <Button variant="contained" className="noOutline mt-1 ml-1" onClick={this.handleGenerateClick} color="primary">Generate Image</Button>
+                <Button variant="contained" className="noOutline mt-1" onClick={this.handleGenerateClick} color="primary">
+                    Generate
+                    <FontAwesomeIcon className="ml-2" icon="palette" />
+                </Button>
+                {!this.state.loading && this.props.genUri !== null &&
+                    <Button id="downloadbtn" download href={this.props.genUri} className="noOutline ml-1 mt-1" variant="contained" color="primary">
+                        Download
+                        <FontAwesomeIcon className="ml-2" icon="cloud-download-alt" />
+                    </Button>
+                }
                 <div>
                     {this.state.loading &&
-                        <div className="spinner-border mt-2" role="status"></div>
+                        <SemipolarLoading style={{ position: "relative", margin: "auto", marginTop: "1em" }} />
                     }
                     {this.props.genUri !== null &&
                         <React.Fragment>

@@ -3,19 +3,31 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import ImageContainer from './ImageContainer';
 import VotingButtons from './VotingButtons';
+import { SemipolarLoading } from 'react-loadingg';
+import $ from "jquery"
 
 const GOOGLE_DRIVE_IMG_URL = "http://drive.google.com/uc?export=view&id=";
 
 class EmotionPicker extends React.Component {
-    componentDidMount(){
+
+
+    state = {
+        loading: true
+    }
+
+    componentDidMount() {
         console.log(this.props)
+    }
+
+    stopLoading = () => {
+        this.setState({loading: false})
     }
 
     render() {
         return (
             <div>
-                {this.props.loading &&
-                    <div className="spinner-border" role="status"></div>
+                {this.state.loading &&
+                    <SemipolarLoading className="loader" />
                 }
                 {this.props.paintings.length !== 0 &&
                     <React.Fragment>
@@ -23,6 +35,7 @@ class EmotionPicker extends React.Component {
                             url={GOOGLE_DRIVE_IMG_URL + this.props.paintings[0].id}
                             width={this.props.paintings[0].imageMediaMetadata.width}
                             height={this.props.paintings[0].imageMediaMetadata.height}
+                            stopLoading={this.stopLoading}
                         />
                         {this.props.paintings[1] !== undefined &&
                             <div hidden>
@@ -30,6 +43,7 @@ class EmotionPicker extends React.Component {
                                     url={GOOGLE_DRIVE_IMG_URL + this.props.paintings[1].id}
                                     width={this.props.paintings[1].imageMediaMetadata.width}
                                     height={this.props.paintings[1].imageMediaMetadata.height}
+                                    stopLoading={this.stopLoading}
                                 />
                             </div>
                         }
@@ -39,9 +53,11 @@ class EmotionPicker extends React.Component {
                         {this.props.paintings.length >= 4 &&
                             <VotingButtons
                                 callbackClick={this.props.handleVote}
+                                windowWidth={this.props.windowWidth}
+                                windowHeight={this.props.windowHeight}
                             />
                         }
-                        <Button className='noOutline' variant='contained' color="secondary" onClick={this.props.nextPhoto}>I <span id="parenthesis"> don't know (and that's okay!)</span></Button>
+                        <Button className='noOutline mt-1' variant='contained' color="secondary" onClick={this.props.nextPhoto}>I <span id="parenthesis"> don't know (and that's okay!)</span></Button>
                         {Object.entries(this.props.votes).length !== 0 &&
                             <Button id="submitBtn" className="noOutline" variant="contained" color="primary" value="Submit" onClick={this.props.submitVotes}>Submit {<span id="parenthesis">({this.props.votes.length} vote(s) so far)</span>}</Button>
                         }

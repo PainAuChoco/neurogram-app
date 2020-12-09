@@ -10,7 +10,7 @@ class ImageContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.computeRatio()
+        //this.computeRatio()
     }
 
     componentDidUpdate(prevProps) {
@@ -59,6 +59,7 @@ class ImageContainer extends React.Component {
             width: newWidth,
             height: newHeight
         })
+        this.props.stopLoading()
     }
 
     render() {

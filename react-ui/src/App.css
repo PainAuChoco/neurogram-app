@@ -157,6 +157,30 @@ b{
   margin: auto;
 }
 
+#downloadbtn :hover{
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.MuiTouchRipple-root :hover{
+  color: white !important;
+}
+
+#styleSelect{
+  width: 100px !important;
+  color: white !important;
+  background-color: #282c34 !important;
+}
+
+#loadingSpinner{
+  position: absolute;
+  margin: auto;
+}
+
+.smallScreenVoting{
+  flex-direction: column;
+}
+
 #title{
   margin: 1em;
 }

@@ -11,7 +11,7 @@ import { ReactComponent as CurveArrow } from "./curve-arrow.svg"
 
 const GOOGLE_API_KEY = "AIzaSyAcNznsnSs9fgpA47oE9EuTYflRSeH6RSc";
 const GOOGLE_DRIVE_URL_START = "https://www.googleapis.com/drive/v2/files?q=%27";
-const GOOGLE_DRIVE_URL_END = "%27+in+parents&maxResults=1000&key=";
+const GOOGLE_DRIVE_URL_END = "%27+in+parents&maxResults=10000&key=";
 const MAIN_FOLDER_ID = "11XVfzHUzqEStME89y-PgJZIOa-MlUODm"
 
 class App extends React.Component {
@@ -122,7 +122,7 @@ class App extends React.Component {
         });
       })
       .then(() => {
-        this.setState({ driveSync: true, loading: false })
+        this.setState({ driveSync: true, loading: true })
       })
   }
 
@@ -281,7 +281,16 @@ class App extends React.Component {
   displaySuccessSnackbar = (message) => {
     this.setState({
       snackbarOpen: true,
-      snackBarMessage: message
+      snackBarMessage: message,
+      snackaBarType: "success"
+    })
+  }
+
+  displayErrorSnackBar = (message) => {
+    this.setState({
+      snackbarOpen: true,
+      snackBarMessage: message,
+      snackaBarType: "error"
     })
   }
 
@@ -348,6 +357,7 @@ class App extends React.Component {
                 getGeneratedImages={this.getGeneratedImages}
                 windowHeight={this.state.windowHeight}
                 windowWidth={this.state.windowWidth}
+                displayErrorSnackBar={this.displayErrorSnackBar}
               />
             </div>
           }
@@ -376,6 +386,7 @@ class App extends React.Component {
             <SuccessSnackBar
               message={this.state.snackBarMessage}
               handleCloseError={this.handleCloseError}
+              type={this.state.snackaBarType}
             />
           }
         </div>
