@@ -65,7 +65,7 @@ class ImageGenerator extends React.Component {
                 <div id="form">
 
                     <select id="style" name="style" className="select form-control mr-1" placeholder="Painting Style">
-                        <option value="" disabled selected hidden>Painting Style</option>
+                        <option value="" disabled selected hidden>Style</option>
                         <option value="portrait">Portrait</option>
                         <option value="abstract">Abstract</option>
                         <option value="flower-painting">Flower</option>
@@ -73,14 +73,14 @@ class ImageGenerator extends React.Component {
                     </select>
 
                     <select id="emotion" name="emotion" className="select form-control" placeholder="Emotion Type">
-                        <option value="" disabled selected hidden>Emotion Type</option>
+                        <option value="" disabled selected hidden>Emotion</option>
                         <option value="positive">positive</option>
                         <option value="negative">negative</option>
                         <option value="neutral">neutral</option>
                     </select>
 
                     <select id="number" name="number" className="select form-control ml-1" placeholder="Number of generation">
-                        <option value="" disabled selected hidden>Number of Images</option>
+                        <option value="" disabled selected hidden>Number</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="8">8</option>
