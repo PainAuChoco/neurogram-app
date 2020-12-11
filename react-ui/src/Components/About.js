@@ -45,7 +45,7 @@ function getStepContent(step, windowWidth, windowHeight) {
                 <div style={windowWidth > 650 ? bigText : smallText}>
                     <p>
                         Neurogram is an ambitious art project which started in September 2020.
-                        It's linking our brain and emotions to artwork creation using of Artificial Intelligence.
+                        It's linking our brain and emotions to artwork creation using Artificial Intelligence.
                     </p>
                     Our vision is to firstly <b>record brain activity</b> with dry electrode electroencephalogram (EEG)
                     and <b>classify emotions</b> through a Brain-Computer interface.
@@ -57,7 +57,7 @@ function getStepContent(step, windowWidth, windowHeight) {
             return (
                 <div style={windowWidth > 650 ? bigText : smallText}>
                     <p>
-                        We are a team of 7 young engineers specialized either in <b>Big Data&AI</b> or in <b>Health&Neurosciences</b>.
+                        We are a team of 7 young engineers specialized either in <b>Big Data&AI</b> and in <b>Health&Neurosciences</b>.
                     </p>
                     Our goal is to build a unique experience by bringing together the latest technologies from these fields.
                     <p>
@@ -82,7 +82,7 @@ function getStepContent(step, windowWidth, windowHeight) {
                     </p>
                     <h5 style={{color: "#007bff"}}>That's why we need you !</h5>
                     <p>
-                        By choosing between 3 ranges of emotions (negative, neutral and positive) on a few existing paintings,
+                        By choosing between a range of emotions on a few existing paintings,
                         you are playing a crucial role in the making of Neurogram ! From the votes of many people, we'll be able to be
                         even more precise and objective.
                     </p>
