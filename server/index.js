@@ -3,14 +3,8 @@ var bodyParser = require('body-parser')
 const path = require('path');
 const { spawn } = require('child_process');
 const fs = require('fs')
-const readline = require('readline');
-const opn = require('opn')
 const { google } = require('googleapis');
-const cluster = require('cluster');
-const { data } = require('jquery');
-const { error } = require('console');
-const numCPUs = require('os').cpus().length;
-
+const csvParser = require('csv-parser');
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
@@ -30,6 +24,26 @@ app.get('/api', function (req, res) {
   res.set('Content-Type', 'application/json');
   res.send('{"message":"Hello from the custom server!"}');
 });
+
+app.get('/getPaintings', function (req,res) {
+  console.log('get paintings')
+  const filepath = './ids.csv'
+  let dataList = []
+  fs.createReadStream(filepath)
+    .on('error', () => {
+      console.error();
+    })
+    .pipe(csvParser())
+    .on('data', (row) => {
+        dataList.push(row)
+    })
+    .on('end', () => {
+        console.log(dataList[0].id)
+        dataList = shuffle(dataList)
+        console.log(dataList[0].id)
+        res.json(dataList.slice(0, 10000))
+    })
+})
 
 app.get('/script/:id/:style/:number/:emotion', (req, res) => {
   let id = req.params.id
@@ -112,7 +126,7 @@ app.post('/submit/:id', (req, res) => {
 
   let newLine = []
   newLine.push("ID")
-  newLine.push("Folder")
+  newLine.push("Genre")
   newLine.push("Previous")
   newLine.push("New")
   writeStream.write(newLine.join(',') + '\n', () => { })
@@ -120,7 +134,7 @@ app.post('/submit/:id', (req, res) => {
   votes.forEach(vote => {
     let newLine = []
     newLine.push(vote.id)
-    newLine.push(vote.type)
+    newLine.push(vote.genre)
     newLine.push(vote.previous)
     newLine.push(vote.vote)
     writeStream.write(newLine.join(',') + '\n', () => { })
@@ -169,3 +183,22 @@ function uploadFile(auth, filename) {
 const uint8arrayToString = function(data){
   return String.fromCharCode.apply(null, data);
 };
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}

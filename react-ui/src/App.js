@@ -27,7 +27,7 @@ class App extends React.Component {
     currentHeight: 0,
     loading: false,
     imgGenerated: false,
-    display: null,  
+    display: null,
     driveSync: false,
     matchings: {},
     authCode: null,
@@ -50,9 +50,9 @@ class App extends React.Component {
       })
       //simply change url without redirection
       window.history.pushState({}, null, "/")
-      this.loadDirectoriesName()
     }
     window.addEventListener('resize', this.updateDimensions);
+    this.getPaintingsId()
   }
 
   updateDimensions = () => {
@@ -63,138 +63,41 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.positive.length !== 0 && this.state.negative.length !== 0 && this.state.neutral.length !== 0) {
-      var paintings = this.state.paintings
-      paintings = paintings.concat(this.state.negative)
-      paintings = paintings.concat(this.state.positive)
-      paintings = paintings.concat(this.state.neutral)
-      console.log(paintings.length)
-
-      paintings = this.shuffleArray(paintings)
-      paintings = this.removeEdited(paintings)
-      var currentWidth = paintings[0].imageMediaMetadata.width
-      var currentHeight = paintings[0].imageMediaMetadata.height
-      this.setState({
-        paintings: paintings,
-        positive: [],
-        negative: [],
-        neutral: [],
-        currentHeight: currentHeight,
-        currentWidth: currentWidth,
-      })
-    }
-
     if (this.state.display === "Emotion Picker" && this.state.authCode === null) {
       this.register()
     }
   }
 
-  loadDirectoriesName = () => {
-    fetch(
-      GOOGLE_DRIVE_URL_START +
-      MAIN_FOLDER_ID +
-      GOOGLE_DRIVE_URL_END +
-      GOOGLE_API_KEY
-    )
-      .then(response => response.json())
-      .then(jsonResp => {
-        var dirs = jsonResp.items
-        this.setState({
-          directories: dirs,
-          loading: true
-        })
-        return dirs
-      })
-      .then((dirs) => {
-        dirs.forEach(dir => {
-          var dirId = dir.id
-          switch (dir.title) {
-            case 'portrait':
-            case 'landscape':
-            case 'asbtract':
-            case 'animal-painting':
-            case 'cityscape':
-            case 'flower':
-              this.loadSubDir(dirId);
-              break;
-          }
-          //this.loadSubDir(dirId)
-        });
-      })
-      .then(() => {
-        this.setState({ driveSync: true, loading: true })
-      })
-  }
-
-  removeEdited = (paintings) => {
-    for (var i = 0; i < paintings.length; i++) {
-      if (paintings[i].title.includes("edited")) {
-        paintings.splice(i, 1)
-      }
+  shuffleArray = (array) => {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
     }
-    return paintings
+    return array
   }
 
-  loadSubDir = (dirId) => {
-    fetch(
-      GOOGLE_DRIVE_URL_START +
-      dirId +
-      GOOGLE_DRIVE_URL_END +
-      GOOGLE_API_KEY
-    )
-      .then(response => response.json())
-      .then(jsonResp => {
-        jsonResp.items.forEach((subdir) => {
-          this.state.matchings[subdir.id] = subdir.parents[0].id
-          this.loadData(subdir.id, subdir.title)
+  getPaintingsId = () => {
+    fetch("/getPaintings")
+      .then((res) => res.json())
+      .then((jsonResp) => {
+        var paintings = this.shuffleArray(jsonResp)
+        this.setState({
+          paintings: paintings,
+          currentHeight: paintings[0].height,
+          currentWidth: paintings[0].width,
         })
       })
-  }
-
-  loadData = (dirId, type) => {
-    fetch(
-      GOOGLE_DRIVE_URL_START +
-      dirId +
-      GOOGLE_DRIVE_URL_END +
-      GOOGLE_API_KEY
-    )
-      .then(response => response.json())
-      .then(jsonResp => {
-        var data = jsonResp.items
-        switch (type) {
-          case "positive":
-            {
-              this.setState({
-                positive: data
-              })
-              break;
-            }
-          case "neutral":
-            {
-              this.setState({
-                neutral: data
-              })
-              break;
-            }
-          case "negative":
-            {
-              this.setState({
-                negative: data
-              })
-              break;
-            }
-        }
-      })
-      .catch(error => console.log(error))
   }
 
   handleVote = (vote) => {
     var photoTitle = this.state.paintings[0].title
-    var type = this.findDirectoryNameById(this.state.paintings[0].parents[0].id)
+    var genre = this.state.paintings[0].genre
     var votes = this.state.votes
     votes.push({
       id: photoTitle,
-      type: type,
+      genre: genre,
       previous: photoTitle.split('_')[1].split('.')[0],
       vote: vote.toLowerCase()
     })
@@ -205,22 +108,12 @@ class App extends React.Component {
     this.nextPhoto()
   }
 
-  findDirectoryNameById = (id) => {
-    var res
-    this.state.directories.forEach(dir => {
-      if (dir.id === this.state.matchings[id]) {
-        res = dir.title
-      }
-    });
-    return res
-  }
-
   nextPhoto = () => {
     var paintings = this.state.paintings
     paintings.splice(0, 1)
 
-    var currentWidth = paintings[0].imageMediaMetadata.width
-    var currentHeight = paintings[0].imageMediaMetadata.height
+    var currentWidth = paintings[0].width
+    var currentHeight = paintings[0].height
 
     this.setState({
       currentHeight: currentHeight,
@@ -232,16 +125,6 @@ class App extends React.Component {
     this.setState({
       paintings: []
     })
-  }
-
-  shuffleArray = (array) => {
-    for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-    return array
   }
 
   submitVotes = () => {
@@ -328,68 +211,68 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-          <div id="title">
-            {this.state.display !== null && 
-              <CurveArrow id="arrow" width="25px" height="25px" onClick={this.displayHomePage}/>
-            }
-            {this.state.display !== null && this.state.display !== "About" &&
-              <span> {this.state.display + " by "}</span>
-            }
-            {this.state.display === "About" && 
-              <span>{this.state.display + ' '}</span>
-            }
-            <span id="neurogramTitle" onClick={this.displayHomePage}>Neurogram</span>
-          </div>
-          {this.state.display === null &&
-            <Menu
-              displayEmotionPicker={this.displayEmotionPicker}
-              displayGenerator={this.displayGenerator}
-              displayAboutPage={this.displayAboutPage}
-              windowHeight={this.state.windowHeight}
-              windowWidth={this.state.windowWidth}
-            />
+        <div id="title">
+          {this.state.display !== null &&
+            <CurveArrow id="arrow" width="25px" height="25px" onClick={this.displayHomePage} />
           }
-          {this.state.display === "Artwork Generator" &&
-            <div>
-              <ImageGenerator
-                show={this.state.imgGenerated}
-                genUri={this.state.genUri}
-                getGeneratedImages={this.getGeneratedImages}
-                windowHeight={this.state.windowHeight}
-                windowWidth={this.state.windowWidth}
-                displayErrorSnackBar={this.displayErrorSnackBar}
-              />
-            </div>
+          {this.state.display !== null && this.state.display !== "About" &&
+            <span> {this.state.display + " by "}</span>
           }
-          {this.state.display === "Emotion Picker" &&
-            <EmotionPicker
-              submitVotes={this.submitVotes}
-              handleVote={this.handleVote}
-              nextPhoto={this.nextPhoto}
-              paintings={this.state.paintings}
-              loading={this.state.loading}
-              votes={this.state.votes}
-              currentWidth={this.state.currentWidth}
-              currentHeight={this.state.currentHeight}
-              windowHeight={this.state.windowHeight}
-              windowWidth={this.state.windowWidth}
-            />
+          {this.state.display === "About" &&
+            <span>{this.state.display + ' '}</span>
           }
-          {this.state.display === 'About' && 
-            <About
-              returnToMenu={this.displayHomePage}
-              windowWidth={this.state.windowWidth}
-              windowHeight={this.state.windowHeight}
-            />
-          }
-          {this.state.snackbarOpen &&
-            <SuccessSnackBar
-              message={this.state.snackBarMessage}
-              handleCloseError={this.handleCloseError}
-              type={this.state.snackaBarType}
-            />
-          }
+          <span id="neurogramTitle" onClick={this.displayHomePage}>Neurogram</span>
         </div>
+        {this.state.display === null &&
+          <Menu
+            displayEmotionPicker={this.displayEmotionPicker}
+            displayGenerator={this.displayGenerator}
+            displayAboutPage={this.displayAboutPage}
+            windowHeight={this.state.windowHeight}
+            windowWidth={this.state.windowWidth}
+          />
+        }
+        {this.state.display === "Artwork Generator" &&
+          <div>
+            <ImageGenerator
+              show={this.state.imgGenerated}
+              genUri={this.state.genUri}
+              getGeneratedImages={this.getGeneratedImages}
+              windowHeight={this.state.windowHeight}
+              windowWidth={this.state.windowWidth}
+              displayErrorSnackBar={this.displayErrorSnackBar}
+            />
+          </div>
+        }
+        {this.state.display === "Emotion Picker" &&
+          <EmotionPicker
+            submitVotes={this.submitVotes}
+            handleVote={this.handleVote}
+            nextPhoto={this.nextPhoto}
+            paintings={this.state.paintings}
+            loading={this.state.loading}
+            votes={this.state.votes}
+            currentWidth={this.state.currentWidth}
+            currentHeight={this.state.currentHeight}
+            windowHeight={this.state.windowHeight}
+            windowWidth={this.state.windowWidth}
+          />
+        }
+        {this.state.display === 'About' &&
+          <About
+            returnToMenu={this.displayHomePage}
+            windowWidth={this.state.windowWidth}
+            windowHeight={this.state.windowHeight}
+          />
+        }
+        {this.state.snackbarOpen &&
+          <SuccessSnackBar
+            message={this.state.snackBarMessage}
+            handleCloseError={this.handleCloseError}
+            type={this.state.snackaBarType}
+          />
+        }
+      </div>
     )
   }
 }

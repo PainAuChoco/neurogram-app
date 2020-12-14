@@ -33,16 +33,16 @@ class EmotionPicker extends React.Component {
                     <React.Fragment>
                         <ImageContainer
                             url={GOOGLE_DRIVE_IMG_URL + this.props.paintings[0].id}
-                            width={this.props.paintings[0].imageMediaMetadata.width}
-                            height={this.props.paintings[0].imageMediaMetadata.height}
+                            width={this.props.paintings[0].width}
+                            height={this.props.paintings[0].height}
                             stopLoading={this.stopLoading}
                         />
                         {this.props.paintings[1] !== undefined &&
                             <div hidden>
                                 <ImageContainer
                                     url={GOOGLE_DRIVE_IMG_URL + this.props.paintings[1].id}
-                                    width={this.props.paintings[1].imageMediaMetadata.width}
-                                    height={this.props.paintings[1].imageMediaMetadata.height}
+                                    width={this.props.paintings[1].width}
+                                    height={this.props.paintings[1].height}
                                     stopLoading={this.stopLoading}
                                 />
                             </div>

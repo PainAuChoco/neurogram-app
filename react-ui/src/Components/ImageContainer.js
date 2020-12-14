@@ -10,51 +10,30 @@ class ImageContainer extends React.Component {
     }
 
     componentDidMount() {
-        //this.computeRatio()
+        this.computeRatio()
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.url !== this.props.url) {
             this.computeRatio()
-
-            /*var self = this
-            Image.prototype.load = function (url) {
-                var thisImg = this;
-                var xmlHTTP = new XMLHttpRequest();
-                xmlHTTP.open('GET', url, true);
-                xmlHTTP.responseType = 'arraybuffer';
-                xmlHTTP.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-                xmlHTTP.onprogress = function (e) {
-                    thisImg.completedPercentage = parseInt((e.loaded / e.total) * 100);
-                    console.log(thisImg.completedPercentage)
-                    self.setState({
-                        progress: thisImg.completedPercentage
-                    })
-                };
-                xmlHTTP.onloadstart = function () {
-                    thisImg.completedPercentage = 0;
-                };
-                xmlHTTP.send();
-            };
-            Image.prototype.completedPercentage = 0;
-
-            var img = new Image();
-            img.load(this.props.url);
-            img.src = this.props.url*/
         }
     }
 
     computeRatio = () => {
         var ratio = this.props.height / this.props.width
+        console.log(ratio)
         var newWidth, newHeight
-        if (this.props.width < this.props.height) {
+        if (ratio >= 1) {
+            console.log("height bigger")
             newHeight = 300
             newWidth = newHeight / ratio
         }
         else {
+            console.log("width bigger")
             newWidth = 300
             newHeight = newWidth * ratio
         }
+        console.log(newWidth, newHeight)
         this.setState({
             width: newWidth,
             height: newHeight
